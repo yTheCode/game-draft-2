@@ -1,39 +1,40 @@
-extends CharacterBody2D
+extends Node2D
 
-@export var walk_speed = 4.0
-const TILE_SIZE = 16
+@export var walk_time := 0.15
+const TILE_SIZE := 16
 
-var initial_position = Vector2(0, 0)
-var input_direction = Vector2(0, 0)
-var is_moving = false
-var percent_moved_to_next_tile = 0.0
+var tween: Tween
+var direction := Vector2.ZERO
+var is_moving := false
 
-func _ready() -> void:
-	initial_position = position
+func _process(delta):
+	if not is_moving:
+		handle_input()
 
-func _physics_process(delta: float) -> void:
-	if is_moving == false:
-		process_player_input()
-	elif input_direction != Vector2.ZERO:
-		move(delta)
-	else:
-		is_moving = false
+func handle_input():
+	var input := Vector2(
+		int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left")),
+		int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up"))
+	)
 
-func process_player_input():
-	if input_direction.y == 0:
-		input_direction.x = int(Input.is_action_just_pressed("ui_right")) - int(Input.is_action_just_pressed("ui_left"))
-	elif input_direction.x == 0:
-		input_direction.y = int(Input.is_action_just_pressed("ui_down")) - int(Input.is_action_pressed("ui_up"))
-	
-	if input_direction != Vector2.ZERO:
-		initial_position = position
-		is_moving = true
+	if input.x != 0: input.y = 0
+	if input == Vector2.ZERO:
+		return
 
-func move(delta):
-		percent_moved_to_next_tile += walk_speed * delta
-		if percent_moved_to_next_tile >= 1.0:
-			position = initial_position + (TILE_SIZE * input_direction)
-			percent_moved_to_next_tile = 0.0
-			is_moving = false
-		else:
-			position = initial_position + (TILE_SIZE * input_direction * percent_moved_to_next_tile)
+	direction = input
+	var target := position + direction * TILE_SIZE
+
+	if not can_move_to(target):
+		return
+
+	move_to(target)
+
+func move_to(target_pos: Vector2):
+	is_moving = true
+	tween = create_tween()
+	tween.tween_property(self, "position", target_pos, walk_time)
+	tween.finished.connect(func(): is_moving = false)
+
+func can_move_to(target_pos: Vector2) -> bool:
+	# Here you can add collision checks, TileMap lookups, etc.
+	return true
