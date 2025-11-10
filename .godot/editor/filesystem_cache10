@@ -1,11 +1,7 @@
 63f7b34db8d8cdea90c76aacccf841ec
-::res://::1762758152
-::res://assets/::1762707363
-::res://assets/fonts/::1762521738
-::res://assets/music/::1762521796
-::res://assets/sounds/::1762521791
-::res://DataStruct_game_draft_1/::1762706590
-::res://Game_draft_1/::1762706787
-::res://scenes/::1762758090
-game.tscn::PackedScene::89433756795299310::1762757858::0::1::::<><><>0<>0<><>::uid://bkl8bd61avxqc::::res://scenes/player.tscn<>res://assets/sprites/TileSet PNG.png
-player.tscn::PackedScene::3113022928564441510::1762757902::0::1::::<><><>0<>0<><>::res://assets/sprites/player/(M)-main-character.png<>res://scripts/player.gd
+::res://::1762758277
+::res://assets/::1762758496
+(M)-main-character.png::CompressedTexture2D::1887783658130367127::1762758496::1762758497::1::::<><><>0<>0<>e8b7be11ff97e1fd6e9ea961cf9d0aeb<>res://.godot/imported/(M)-main-character.png-e89d34b6804c23cd962e0de2e2edaf7e.ctex::
+TileSet PNG.png::CompressedTexture2D::5766970969375762190::1762758464::1762758464::1::::<><><>0<>0<>8d17fc5e65c6ff20b663e9f4b27fe1b5<>res://.godot/imported/TileSet PNG.png-0186e941cf323da1cf5cf5d0e2869c4d.ctex::
+::res://scenes/::1762758271
+::res://scripts/::1762758277
