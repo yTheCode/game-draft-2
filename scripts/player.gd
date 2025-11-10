@@ -1,48 +1,41 @@
 extends CharacterBody2D
 
-@export var tile_size := 16
-@export var walk_time := 0.15
+@export var walk_speed = 4.0
+const TILE_SIZE = 16
 
-var is_moving := false
-var direction := Vector2.ZERO
-var tween: Tween
+var initial_position = Vector2(0, 0)
+var input_direction = Vector2(0, 0)
+var is_moving = false
+var percent_moved_to_next_tile = 0.0
+
+func _ready() -> void:
+	initial_position = position
 
 func _physics_process(delta: float) -> void:
 	if not is_moving:
-		handle_input()
+		input_direction = Vector2.ZERO  # reset direction when idle
+		process_player_input()
+	else:
+		move(delta)
 
-func handle_input():
-	var input := Vector2(
-		int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left")),
-		int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up"))
-	)
+func process_player_input():
+	var x_input = int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left"))
+	var y_input = int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up"))
 
-	# prioritize one axis at a time (no diagonal)
-	if input.x != 0: input.y = 0
-	if input == Vector2.ZERO:
-		return
+	if x_input != 0:
+		input_direction = Vector2(x_input, 0)
+	elif y_input != 0:
+		input_direction = Vector2(0, y_input)
 
-	direction = input
-	var target_pos = global_position + direction * tile_size
+	if input_direction != Vector2.ZERO:
+		initial_position = position
+		is_moving = true
 
-	# Check collisions before moving
-	if can_move_to(target_pos):
-		move_to(target_pos)
-
-func can_move_to(target_pos: Vector2) -> bool:
-	var space_state := get_world_2d().direct_space_state
-	# max_results = 1, exclude self, use default collision mask, check both bodies and areas
-	var result := space_state.intersect_point(target_pos, 1, [self])
-	return result.empty()  # true if no collisions => tile is free
-
-
-func move_to(target_pos: Vector2):
-	is_moving = true
-
-	if tween:
-		tween.kill()
-
-	tween = create_tween()
-	tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
-	tween.tween_property(self, "global_position", target_pos, walk_time).set_trans(Tween.TRANS_SINE)
-	tween.finished.connect(func(): is_moving = false)
+func move(delta):
+		percent_moved_to_next_tile += walk_speed * delta
+		if percent_moved_to_next_tile >= 1.0:
+			position = initial_position + (TILE_SIZE * input_direction)
+			percent_moved_to_next_tile = 0.0
+			is_moving = false
+		else:
+			position = initial_position + (TILE_SIZE * input_direction * percent_moved_to_next_tile)
