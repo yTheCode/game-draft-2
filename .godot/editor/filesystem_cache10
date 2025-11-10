@@ -1,0 +1,11 @@
+63f7b34db8d8cdea90c76aacccf841ec
+::res://::1762758152
+::res://assets/::1762707363
+::res://assets/fonts/::1762521738
+::res://assets/music/::1762521796
+::res://assets/sounds/::1762521791
+::res://DataStruct_game_draft_1/::1762706590
+::res://Game_draft_1/::1762706787
+::res://scenes/::1762758090
+game.tscn::PackedScene::89433756795299310::1762757858::0::1::::<><><>0<>0<><>::uid://bkl8bd61avxqc::::res://scenes/player.tscn<>res://assets/sprites/TileSet PNG.png
+player.tscn::PackedScene::3113022928564441510::1762757902::0::1::::<><><>0<>0<><>::res://assets/sprites/player/(M)-main-character.png<>res://scripts/player.gd
