@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://3j2kfuvfleby"]
+[gd_scene load_steps=18 format=3 uid="uid://3j2kfuvfleby"]
 
 [ext_resource type="Texture2D" uid="uid://15pryk8r8rtv" path="res://assets/(M)-main-character.png" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://8wy0g0bilsx2" path="res://scripts/player.gd" id="1_g2els"]
@@ -39,6 +39,10 @@ region = Rect2(80, 0, 16, 16)
 atlas = ExtResource("1_3vyb7")
 region = Rect2(0, 0, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_f1ej7"]
+atlas = ExtResource("1_3vyb7")
+region = Rect2(16, 0, 16, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_d2wvv"]
 atlas = ExtResource("1_3vyb7")
 region = Rect2(32, 0, 16, 16)
@@ -62,7 +66,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"idle back",
-"speed": 3.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -73,7 +77,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"idle front",
-"speed": 3.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -84,7 +88,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"idle side",
-"speed": 3.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -95,18 +99,24 @@ animations = [{
 }],
 "loop": true,
 "name": &"run back",
-"speed": 3.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_y4r1p")
 }, {
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_f1ej7")
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_d2wvv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f1ej7")
 }],
 "loop": true,
 "name": &"run front",
-"speed": 3.0
+"speed": 4.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -117,7 +127,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"run side",
-"speed": 3.0
+"speed": 8.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3vyb7"]
@@ -130,8 +140,8 @@ script = ExtResource("1_g2els")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_f1ej7")
-animation = &"run front"
-frame_progress = 0.03749786
+animation = &"run back"
+frame_progress = 0.51265275
 centered = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
