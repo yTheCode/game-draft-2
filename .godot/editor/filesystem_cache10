@@ -1,10 +1,11 @@
 63f7b34db8d8cdea90c76aacccf841ec
-::res://::1763276420
-::res://assets/::1762758497
+::res://::1763302797
+::res://assets/::1763276580
 (M)-main-character.png::CompressedTexture2D::1887783658130367127::1762758496::1762758497::1::::<><><>0<>0<>e8b7be11ff97e1fd6e9ea961cf9d0aeb<>res://.godot/imported/(M)-main-character.png-e89d34b6804c23cd962e0de2e2edaf7e.ctex::
 TileSet PNG.png::CompressedTexture2D::5766970969375762190::1762758464::1762758464::1::::<><><>0<>0<>8d17fc5e65c6ff20b663e9f4b27fe1b5<>res://.godot/imported/TileSet PNG.png-0186e941cf323da1cf5cf5d0e2869c4d.ctex::
-::res://scenes/::1763274035
-player.tscn::PackedScene::1985524532869289874::1763274034::0::1::::<><><>0<>0<><>::uid://15pryk8r8rtv::::res://assets/(M)-main-character.png<>uid://8wy0g0bilsx2::::res://scripts/player.gd
-town.tscn::PackedScene::2747324845454419967::1763272154::0::1::::<><><>0<>0<><>::uid://coftf0ygriocc::::res://assets/TileSet PNG.png<>uid://3j2kfuvfleby::::res://scenes/player.tscn
-::res://scripts/::1762830721
-player.gd::GDScript::2363150357135192617::1762830721::0::1::::<>CharacterBody2D<><>0<>0<><>::
+::res://Game-draft-2/::1763302785
+::res://scenes/::1763302654
+player.tscn::PackedScene::1985524532869289874::1763302654::0::1::::<><><>0<>0<><>::uid://15pryk8r8rtv::::res://assets/(M)-main-character.png<>uid://8wy0g0bilsx2::::res://scripts/player.gd
+town.tscn::PackedScene::2747324845454419967::1763302620::0::1::::<><><>0<>0<><>::uid://coftf0ygriocc::::res://assets/TileSet PNG.png<>uid://3j2kfuvfleby::::res://scenes/player.tscn
+::res://scripts/::1763298472
+player.gd::GDScript::2363150357135192617::1763298472::0::1::::<>CharacterBody2D<><>0<>0<><>::
