@@ -9,6 +9,7 @@ var facing_dir := Vector2.DOWN
 var tween: Tween
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var raycast: RayCast2D = $RayCast2D
 
 
 func _physics_process(_delta):
@@ -41,43 +42,46 @@ func _physics_process(_delta):
 # MOVEMENT
 # --------------------------------------
 func move_in_direction(dir: Vector2):
-	play_walk_animation(dir)
-
-	var start_pos := global_position
-	var target_pos := start_pos + dir * tile_size
-
-	if not can_move_to(target_pos):
-		play_idle_animation()
+	
+	if not can_move_to(dir):
 		return
+	else:
+		play_walk_animation(dir)
+		var start_pos := global_position
+		var target_pos := start_pos + dir * tile_size
+		
+		
+		
+		moving = true
+		tween = create_tween()
+		tween.set_trans(Tween.TRANS_LINEAR)
+		tween.set_ease(Tween.EASE_IN_OUT)
+		tween.tween_property(self, "global_position", target_pos, move_time)
+		tween.finished.connect(on_move_finished)
 
-	moving = true
 
-	tween = create_tween()
-	tween.set_trans(Tween.TRANS_LINEAR)
-	tween.set_ease(Tween.EASE_IN_OUT)
-	tween.tween_property(self, "global_position", target_pos, move_time)
-	tween.finished.connect(_on_move_finished)
-
-
-func _on_move_finished():
+func on_move_finished():
 	moving = false
 	play_idle_animation()
-
 
 # --------------------------------------
 # TURN FINISH SIGNAL
 # --------------------------------------
-func _on_turn_finished():
+func on_turn_finished():
 	turning = false  # Allow movement again
 	play_idle_animation()
-
 
 # --------------------------------------
 # COLLISION SYSTEM
 # --------------------------------------
-func can_move_to(target_pos: Vector2) -> bool:
-	return true
+func can_move_to(dir: Vector2) -> bool:
+	raycast.target_position = dir * tile_size
+	raycast.force_raycast_update()
 
+	if raycast.is_colliding():
+		return false
+
+	return true
 
 # --------------------------------------
 # ANIMATIONS
@@ -116,4 +120,4 @@ func play_turn_animation(new_dir: Vector2):
 
 
 	# Connect animation finished
-	sprite.animation_finished.connect(_on_turn_finished, CONNECT_ONE_SHOT)
+	sprite.animation_finished.connect(on_turn_finished, CONNECT_ONE_SHOT)

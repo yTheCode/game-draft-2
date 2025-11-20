@@ -213,9 +213,16 @@ script = ExtResource("1_g2els")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_f1ej7")
-animation = &"idle_back"
+animation = &"idle_front"
 centered = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_3vyb7")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(8, 8)
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2(8, 8)
+target_position = Vector2(0, 16)
