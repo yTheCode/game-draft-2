@@ -1,8 +1,5 @@
 extends CharacterBody2D
 
-signal player_entering_door_signal
-signal player_entered_door_signal
-
 @export var tile_size := 16
 @export var move_time := 0.5
 
@@ -13,7 +10,6 @@ var tween: Tween
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var blocking_raycast: RayCast2D = $BlockingRayCast2D
-@onready var door_raycast: RayCast2D = $DoorRayCast2D
 
 
 func _physics_process(_delta):
@@ -47,22 +43,24 @@ func _physics_process(_delta):
 # MOVEMENT
 # --------------------------------------
 func move_in_direction(dir: Vector2):
-	
+	# --- Next: Are we blocked by a wall? ---
 	if not can_move_to(dir):
-		play_walk_animation(dir)
+		play_walk_animation(dir)  # walk-in-place like Pokémon
 		return
-	
+
+	# --- Free tile → walk normally ---
 	play_walk_animation(dir)
-	
+
 	var start_pos := global_position
 	var target_pos := start_pos + dir * tile_size
-	
+
 	moving = true
 	tween = create_tween()
 	tween.set_trans(Tween.TRANS_LINEAR)
 	tween.set_ease(Tween.EASE_IN_OUT)
 	tween.tween_property(self, "global_position", target_pos, move_time)
 	tween.finished.connect(on_move_finished)
+
 
 
 func on_move_finished():
@@ -88,10 +86,7 @@ func can_move_to(dir: Vector2) -> bool:
 
 	return true
 
-func move_to_door():
-	pass
-
-# --------------------------------------
+#-----------------------------
 # ANIMATIONS
 # --------------------------------------
 func play_walk_animation(dir: Vector2):
@@ -129,3 +124,7 @@ func play_turn_animation(new_dir: Vector2):
 
 	# Connect animation finished
 	sprite.animation_finished.connect(on_turn_finished, CONNECT_ONE_SHOT)
+
+
+func _on_animated_sprite_2d_animation_finished() -> void:
+	pass # Replace with function body.
