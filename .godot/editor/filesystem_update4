@@ -3,3 +3,5 @@ res://scenes/player.tscn
 res://scripts/player.gd
 res://scenes/tree.tscn
 res://scenes/flower.tscn
+res://scenes/house.tscn
+res://scenes/door.tscn

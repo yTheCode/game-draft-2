@@ -1,5 +1,8 @@
 extends CharacterBody2D
 
+signal player_entering_door_signal
+signal player_entered_door_signal
+
 @export var tile_size := 16
 @export var move_time := 0.5
 
@@ -9,7 +12,8 @@ var facing_dir := Vector2.DOWN
 var tween: Tween
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var raycast: RayCast2D = $RayCast2D
+@onready var blocking_raycast: RayCast2D = $BlockingRayCast2D
+@onready var door_raycast: RayCast2D = $DoorRayCast2D
 
 
 func _physics_process(_delta):
@@ -17,14 +21,15 @@ func _physics_process(_delta):
 		return
 
 	var input_dir := Vector2.ZERO
-	input_dir.x = Input.get_action_strength("right") - Input.get_action_strength("left")
-	input_dir.y = Input.get_action_strength("down") - Input.get_action_strength("up")
+	input_dir.x = int(Input.is_action_pressed("right")) - int(Input.is_action_pressed("left"))
+	input_dir.y = int(Input.is_action_pressed("down")) - int(Input.is_action_pressed("up"))
 
 	# Prevent diagonal movement
 	if input_dir.x != 0:
 		input_dir.y = 0
 
-	if input_dir == Vector2.ZERO:
+	if input_dir == Vector2.ZERO and not moving and not turning:
+		play_idle_animation()
 		return
 
 	# --- TURN FIRST ---
@@ -44,20 +49,20 @@ func _physics_process(_delta):
 func move_in_direction(dir: Vector2):
 	
 	if not can_move_to(dir):
-		return
-	else:
 		play_walk_animation(dir)
-		var start_pos := global_position
-		var target_pos := start_pos + dir * tile_size
-		
-		
-		
-		moving = true
-		tween = create_tween()
-		tween.set_trans(Tween.TRANS_LINEAR)
-		tween.set_ease(Tween.EASE_IN_OUT)
-		tween.tween_property(self, "global_position", target_pos, move_time)
-		tween.finished.connect(on_move_finished)
+		return
+	
+	play_walk_animation(dir)
+	
+	var start_pos := global_position
+	var target_pos := start_pos + dir * tile_size
+	
+	moving = true
+	tween = create_tween()
+	tween.set_trans(Tween.TRANS_LINEAR)
+	tween.set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(self, "global_position", target_pos, move_time)
+	tween.finished.connect(on_move_finished)
 
 
 func on_move_finished():
@@ -75,13 +80,16 @@ func on_turn_finished():
 # COLLISION SYSTEM
 # --------------------------------------
 func can_move_to(dir: Vector2) -> bool:
-	raycast.target_position = dir * tile_size
-	raycast.force_raycast_update()
+	blocking_raycast.target_position = dir * tile_size
+	blocking_raycast.force_raycast_update()
 
-	if raycast.is_colliding():
+	if blocking_raycast.is_colliding():
 		return false
 
 	return true
+
+func move_to_door():
+	pass
 
 # --------------------------------------
 # ANIMATIONS

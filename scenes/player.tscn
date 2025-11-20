@@ -207,6 +207,7 @@ animations = [{
 size = Vector2(16, 16)
 
 [node name="Player" type="CharacterBody2D"]
+collision_mask = 2
 motion_mode = 1
 script = ExtResource("1_g2els")
 
@@ -223,6 +224,9 @@ shape = SubResource("RectangleShape2D_3vyb7")
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(8, 8)
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
+[node name="BlockingRayCast2D" type="RayCast2D" parent="."]
 position = Vector2(8, 8)
 target_position = Vector2(0, 16)
+collision_mask = 2
+
+[node name="DoorRayCast2D" type="RayCast2D" parent="."]
